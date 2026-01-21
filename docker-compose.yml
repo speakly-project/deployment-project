@@ -6,34 +6,38 @@ services:
       environment:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: speakly_bank
+      healthcheck:
+        test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-uroot", "-proot"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
       networks:
         - proxy_red
 
   speakly-bank-back:
     build:
       context: .
-      dockerfile: Dockerfile-bank-back    
+      dockerfile: Dockerfile-bank-back
     container_name: speakly-bank-back
     #ports: #para probar en local
-    #  - "8080:8080"  
+    #  - "8080:8080"
     environment:
       VIRTUAL_HOST: speakly-bank-back.preproducciondaw.cip.fpmislata.com
       # sobrescribir application.properties
       SPRING_DATASOURCE_URL: jdbc:mariadb://speakly-bank-mariadb:3306/speakly_bank?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-    #https://docs.docker.com/reference/compose-file/services/#depends_on
+    #https://docs.docker.com/reference/compose-file/services/#depends_on, depends_on, no funciona por migraciones?
     depends_on:
-      - speakly-bank-mariadb
+      speakly-bank-mariadb:
+        condition: service_healthy
     networks:
       - proxy_red
   speakly-bank-front:
     build:
       context: .
-      dockerfile: Dockerfile-bank-front    
+      dockerfile: Dockerfile-bank-front
     container_name: speakly-bank-front
     #ports: # para probar en local
-    #  - "4200:80" 
+    #  - "4200:80"
     environment:
       VIRTUAL_HOST: speakly-bank-front.preproducciondaw.cip.fpmislata.com
     depends_on:
