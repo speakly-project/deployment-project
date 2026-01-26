@@ -1,5 +1,5 @@
 services:
-
+#--------------banco-------------------------------
   speakly-bank-mariadb:
       image: mariadb:latest
       container_name: speakly-bank-mariadb
@@ -39,12 +39,54 @@ services:
     #ports: # para probar en local
     #  - "4200:80"
     environment:
-      VIRTUAL_HOST: speakly-bank-front.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: speakly-bank.preproducciondaw.cip.fpmislata.com
     depends_on:
       - speakly-bank-back
     networks:
       - proxy_red
 
+#--------------store-----------------------
+
+  speakly-mariadb:
+      image: mariadb:latest
+      container_name: speakly-mariadb
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: speakly
+      healthcheck:
+        test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-uroot", "-proot"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      networks:
+        - proxy_red
+
+  speakly-store-back:
+    build:
+      context: .
+      dockerfile: Dockerfile-store-back
+    container_name: speakly-store-back
+    environment:
+      VIRTUAL_HOST: speakly-store-back.preproducciondaw.cip.fpmislata.com
+      # sobrescribir application.properties
+      SPRING_DATASOURCE_URL: jdbc:mariadb://speakly-mariadb:3306/speakly?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    depends_on:
+      speakly-mariadb:
+        condition: service_healthy
+    networks:
+      - proxy_red
+
+  speakly-store-adm-front:
+    build:
+      context: .
+      dockerfile: Dockerfile-store-adm-front
+    container_name: speakly-store-adm-front
+    environment:
+      VIRTUAL_HOST: speakly-store-adm.preproducciondaw.cip.fpmislata.com
+    depends_on:
+      - speakly-store-back
+    networks:
+      - proxy_red
 
 networks:
   proxy_red:
