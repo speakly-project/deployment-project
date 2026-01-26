@@ -39,7 +39,7 @@ services:
     #ports: # para probar en local
     #  - "4200:80"
     environment:
-      VIRTUAL_HOST: speakly-bank-front.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: speakly-bank.preproducciondaw.cip.fpmislata.com
     depends_on:
       - speakly-bank-back
     networks:
@@ -82,7 +82,7 @@ services:
       dockerfile: Dockerfile-store-adm-front
     container_name: speakly-store-adm-front
     environment:
-      VIRTUAL_HOST: speakly-store-adm-front.preproducciondaw.cip.fpmislata.com
+      VIRTUAL_HOST: speakly-store-adm.preproducciondaw.cip.fpmislata.com
     depends_on:
       - speakly-store-back
     networks:

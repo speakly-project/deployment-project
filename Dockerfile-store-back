@@ -10,7 +10,7 @@ WORKDIR /opt/app
 RUN git clone https://github.com/speakly-project/store-backend.git
 WORKDIR /opt/app/store-backend
 RUN git switch -c develop origin/develop
-RUN mvn -DskipTests -DskipITs clean package
+RUN mvn clean install
  
 EXPOSE 8080
  
