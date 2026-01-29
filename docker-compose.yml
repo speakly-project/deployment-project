@@ -66,6 +66,8 @@ services:
       context: .
       dockerfile: Dockerfile-store-back
     container_name: speakly-store-back
+    env_file:
+     - .speakly-env
     environment:
       VIRTUAL_HOST: speakly-store-back.preproducciondaw.cip.fpmislata.com
       # sobrescribir application.properties
@@ -88,22 +90,19 @@ services:
     networks:
       - proxy_red
 
-networks:
-  proxy_red:
-    external:
-      name: nginx-proxy-network
-
-
     speakly-store-front:
     build:
       context: .
       dockerfile: Dockerfile-store-front
     container_name: speakly
-    env_file:
-    - .speakly-env
     environment:
       VIRTUAL_HOST: speakly.preproducciondaw.cip.fpmislata.com
     depends_on:
       - speakly-store-back
     networks:
       - proxy_red
+
+networks:
+  proxy_red:
+    external:
+      name: nginx-proxy-network
