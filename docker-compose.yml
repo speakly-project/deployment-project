@@ -90,7 +90,7 @@ services:
     networks:
       - proxy_red
 
-    speakly-store-front:
+  speakly-store-front:
     build:
       context: .
       dockerfile: Dockerfile-store-front
