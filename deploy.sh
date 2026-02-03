@@ -14,7 +14,6 @@ if [ "$ENTORNO" != "preprod" ] && [ "$ENTORNO" != "prod" ]; then
     exit 1
 fi
 
-docker compose down
-#docker compose --env-file "environments/.env.$ENTORNO" build --no-cache
-docker compose build --no-cache
+docker compose down --env-file "environments/.env.$ENTORNO"
+docker compose build --no-cache --env-file "environments/.env.$ENTORNO"
 docker compose --env-file "environments/.env.$ENTORNO" up -d
