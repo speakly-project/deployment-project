@@ -18,9 +18,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-bank-back
+      args:
+        GIT_BRANCH: ${GIT_BRANCH}
     container_name: speakly-bank-back
-    #ports: #para probar en local
-    #  - "8080:8080"
     environment:
       VIRTUAL_HOST: ${BANK_BACK}
       # sobrescribir application.properties
@@ -34,9 +34,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-bank-front
+      args:
+        GIT_BRANCH: ${GIT_BRANCH}
+        API_URL: ${BANK_BACK}
     container_name: speakly-bank-front
-    #ports: # para probar en local
-    #  - "4200:80"
     environment:
       VIRTUAL_HOST: ${BANK_FRONT}
     depends_on:
@@ -64,6 +65,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-store-back
+      args:
+        GIT_BRANCH: ${GIT_BRANCH}
     container_name: speakly-store-back
     env_file:
      - .speakly-env
@@ -81,6 +84,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-store-adm-front
+      args:
+        GIT_BRANCH: ${GIT_BRANCH}
+        API_URL: ${STORE_BACK}
     container_name: speakly-store-adm-front
     environment:
       VIRTUAL_HOST: ${STORE_ADM_FRONT}
@@ -93,6 +99,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-store-front
+      args:
+        GIT_BRANCH: ${GIT_BRANCH}
+        API_URL: ${STORE_BACK}
     container_name: speakly
     environment:
       VIRTUAL_HOST: ${STORE_FRONT}
