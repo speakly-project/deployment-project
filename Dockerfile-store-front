@@ -13,7 +13,6 @@ WORKDIR /opt/app/store-client-frontend
 RUN git switch -c ${GIT_BRANCH} origin/${GIT_BRANCH}
 
 RUN npm ci
-# Reemplazar la URL antes del build
 RUN sed -i "s|API_URL_PLACEHOLDER|http://${API_URL}/|" src/environments/environment.ts
 
 
