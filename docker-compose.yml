@@ -25,6 +25,7 @@ services:
       VIRTUAL_HOST: ${BANK_BACK}
       # sobrescribir application.properties
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD_BANK}
     depends_on:
       speakly-bank-mariadb:
         condition: service_healthy
@@ -74,6 +75,7 @@ services:
       VIRTUAL_HOST: ${STORE_BACK}
       # sobrescribir application.properties
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL_STORE}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD_STORE}
     depends_on:
       speakly-mariadb:
         condition: service_healthy
