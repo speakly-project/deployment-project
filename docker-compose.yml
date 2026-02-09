@@ -69,8 +69,6 @@ services:
       args:
         GIT_BRANCH: ${GIT_BRANCH}
     container_name: speakly-store-back
-    env_file:
-     - .speakly-env
     environment:
       VIRTUAL_HOST: ${STORE_BACK}
       # sobrescribir application.properties
