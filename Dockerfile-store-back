@@ -1,7 +1,6 @@
 FROM maven:3.9.11-eclipse-temurin-21-noble
 
 ARG GIT_BRANCH
-
 ENV DEBIAN_FRONTEND=noninteractive
  
 RUN apt-get update
@@ -17,4 +16,4 @@ RUN mvn clean install -DskipTests
 EXPOSE 8080
  
  
-CMD ["java","-jar", "target/store-backend-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/store-backend-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=prod"]
