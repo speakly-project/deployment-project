@@ -1,1 +1,2 @@
 .speakly-env
+.archivosenvlocal/.env.prod .archivosenvlocal/.env.preprod .environments/.env.prod .environments/.env.preprod
